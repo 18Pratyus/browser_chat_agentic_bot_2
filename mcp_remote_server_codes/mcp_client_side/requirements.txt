@@ -1,0 +1,31 @@
+# ════════════════════════════════════════════════════════════════
+# AGENTIC BOT 2.0 - REQUIREMENTS
+# ════════════════════════════════════════════════════════════════
+
+# === Already Installed (verified in venv) ===
+# fastapi==0.115.0
+# uvicorn[standard]
+# websockets
+# python-dotenv
+# langchain==0.3.14
+# langchain-core
+# langgraph==0.2.60
+# langgraph-checkpoint
+# langchain-google-genai
+# langchain-ollama
+# langchain-mcp-adapters
+# httpx
+# httpx-sse
+# numpy
+# aiofiles
+
+# === NEW DEPENDENCIES FOR DAY 1 & 2 ===
+
+# MongoDB Driver (async)
+motor>=3.3.0
+
+# Optional: Local embeddings (if not using Ollama embeddings)
+# sentence-transformers>=2.2.0
+
+# Optional: Pinecone vector database
+# pinecone-client>=3.0.0

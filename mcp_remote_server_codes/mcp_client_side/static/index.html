@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MCP Assistant</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <div class="logo-icon">M</div>
+        <span>MCP Chat</span>
+      </div>
+      <button class="new-chat-btn" id="new-chat-btn" title="New chat">+</button>
+    </div>
+
+    <!-- MCP Servers Status -->
+    <div class="mcp-status">
+      <div class="mcp-status-title">MCP Servers</div>
+      <div class="mcp-server">
+        <span class="mcp-dot"></span>
+        <span class="mcp-server-name">ExpenseTracker</span>
+        <span class="mcp-server-tools">4 tools</span>
+      </div>
+      <div class="mcp-server">
+        <span class="mcp-dot offline"></span>
+        <span class="mcp-server-name">FileSystem</span>
+        <span class="mcp-server-tools">--</span>
+      </div>
+    </div>
+
+    <!-- Conversations -->
+    <div class="conversations" id="conversations">
+      <div class="conv-section-title">Today</div>
+      <div class="conv-item active">
+        <div class="conv-item-title">New conversation</div>
+        <div class="conv-item-time">Just now</div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="sidebar-footer">
+      <div class="avatar">U</div>
+      <div class="user-name">User</div>
+    </div>
+  </aside>
+
+  <!-- Main Area -->
+  <main class="main">
+    <!-- Top Bar -->
+    <div class="topbar">
+      <div class="topbar-title">New conversation</div>
+      <div class="topbar-right">
+        <!-- Time Travel Button -->
+        <button class="topbar-btn" id="time-travel-btn" title="Time Travel">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </button>
+        <div class="topbar-model">
+          <span class="model-dot"></span>
+          Agentic bot 1.o
+        </div>
+        <!-- Theme Toggle -->
+        <div class="theme-toggle">
+          <button class="theme-toggle-btn" id="theme-toggle-btn" title="Change theme">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5" />
+              <line x1="12" y1="1" x2="12" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="23" />
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+              <line x1="1" y1="12" x2="3" y2="12" />
+              <line x1="21" y1="12" x2="23" y2="12" />
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+            </svg>
+          </button>
+          <div class="theme-dropdown" id="theme-dropdown">
+            <button class="theme-option active" data-theme="blue-white">
+              <span class="theme-swatch sw-blue-white"></span>
+              <span class="theme-option-label">Blue White</span>
+              <span class="theme-option-check">&#10003;</span>
+            </button>
+            <button class="theme-option" data-theme="dark-aurora">
+              <span class="theme-swatch sw-dark-aurora"></span>
+              <span class="theme-option-label">Dark Aurora</span>
+              <span class="theme-option-check">&#10003;</span>
+            </button>
+            <button class="theme-option" data-theme="warm-sunset">
+              <span class="theme-swatch sw-warm-sunset"></span>
+              <span class="theme-option-label">Warm Sunset</span>
+              <span class="theme-option-check">&#10003;</span>
+            </button>
+            <button class="theme-option" data-theme="system-black">
+              <span class="theme-swatch sw-system-black"></span>
+              <span class="theme-option-label">System Black</span>
+              <span class="theme-option-check">&#10003;</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Area -->
+    <div class="chat-area" id="chat-area">
+      <!-- Welcome Screen -->
+      <div class="welcome" id="welcome-screen">
+        <div class="welcome-icon">M</div>
+        <h2>What can I help you with?</h2>
+        <p>I can access your MCP tools, read files, track expenses, and help with your tasks.</p>
+        <div class="welcome-chips">
+          <div class="welcome-chip" onclick="usePrompt('Add an expense for lunch today, Rs 500')">Add an expense for
+            lunch today</div>
+          <div class="welcome-chip" onclick="usePrompt('Show all my expenses this month')">Show my expenses this month
+          </div>
+          <div class="welcome-chip" onclick="usePrompt('Summarize my spending by category')">Summarize spending by
+            category</div>
+          <div class="welcome-chip" onclick="usePrompt('What tools are available?')">What tools are available?</div>
+        </div>
+      </div>
+
+      <!-- Messages Container -->
+      <div class="messages-container" id="messages-container" style="display:none;"></div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="input-area">
+      <div class="input-container">
+        <div class="file-preview" id="file-preview"></div>
+        <div class="input-row">
+          <div class="input-actions">
+            <button class="input-action-btn" title="Attach file"
+              onclick="document.getElementById('file-input').click()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48" />
+              </svg>
+            </button>
+            <!-- MCP Connector Button -->
+            <div class="mcp-connector">
+              <button class="input-action-btn" id="mcp-connector-btn" title="MCP Tools">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
+              </button>
+              <div class="mcp-connector-popup" id="mcp-connector-popup">
+                <div class="mcp-popup-header">MCP Tools</div>
+                <div class="mcp-servers-list" id="mcp-servers-list"></div>
+              </div>
+            </div>
+          </div>
+          <textarea id="message-input" rows="1" placeholder="Message MCP Assistant..." autofocus></textarea>
+          <button class="send-btn" id="send-btn" disabled>
+            <svg class="send-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13" />
+              <polygon points="22 2 15 22 11 13 2 9 22 2" />
+            </svg>
+            <svg class="stop-icon" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
+              <rect x="6" y="6" width="12" height="12" rx="2" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <input type="file" id="file-input" multiple />
+    </div>
+  </main>
+
+  <!-- Time Travel Panel -->
+  <div class="time-travel-panel" id="time-travel-panel">
+    <div class="tt-header">
+      <h3>Time Travel</h3>
+      <button class="tt-close-btn" id="tt-close-btn">&times;</button>
+    </div>
+    <div class="tt-description">
+      View conversation history. Rewind to any point or branch into a new conversation.
+    </div>
+    <div class="tt-timeline" id="tt-timeline">
+      <div class="tt-loading">Loading history...</div>
+    </div>
+  </div>
+
+  <!-- Approval Modal -->
+  <div class="approval-modal" id="approval-modal">
+    <div class="approval-content">
+      <div class="approval-header">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        <span>Approval Required</span>
+      </div>
+      <div class="approval-body">
+        <div class="approval-tool" id="approval-tool"></div>
+        <div class="approval-message" id="approval-message"></div>
+        <div class="approval-risk" id="approval-risk"></div>
+      </div>
+      <div class="approval-actions">
+        <button class="approval-btn reject" id="approval-reject">Reject</button>
+        <button class="approval-btn approve" id="approval-approve">Approve</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Credential Modal -->
+  <div class="approval-modal" id="credential-modal">
+    <div class="approval-content">
+      <div class="approval-header">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0110 0v4"/>
+        </svg>
+        <span>Login Detected — Enter Credentials</span>
+      </div>
+      <div class="approval-body" id="credential-fields"></div>
+      <div class="approval-actions">
+        <button class="approval-btn reject" id="credential-cancel">Cancel</button>
+        <button class="approval-btn approve" id="credential-submit">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Skill Recording Popup (Day 5) -->
+  <div class="skill-popup-overlay" id="skill-popup-overlay">
+    <div class="skill-popup">
+      <div class="skill-popup-header">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+        <span>Save as Skill</span>
+      </div>
+      <div class="skill-popup-body">
+        <p class="skill-popup-message">Do you want to save this response as a reusable skill?</p>
+        <div class="skill-popup-preview">
+          <div class="skill-preview-label">Query:</div>
+          <div class="skill-preview-query" id="skill-preview-query"></div>
+          <div class="skill-preview-label">Tools used:</div>
+          <div class="skill-preview-tools" id="skill-preview-tools"></div>
+        </div>
+        <p class="skill-popup-note">The skill will be automatically named and can be reused for similar requests.</p>
+      </div>
+      <div class="skill-popup-actions">
+        <button class="skill-popup-btn cancel" id="skill-popup-cancel">Cancel</button>
+        <button class="skill-popup-btn confirm" id="skill-popup-confirm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          Save Skill
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast (Day 5) -->
+  <div class="notification-toast" id="notification-toast">
+    <div class="notification-icon" id="notification-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+    </div>
+    <div class="notification-content">
+      <div class="notification-title" id="notification-title">Success</div>
+      <div class="notification-message" id="notification-message">Skill saved successfully!</div>
+    </div>
+    <button class="notification-close" id="notification-close">&times;</button>
+  </div>
+
+  <script src="/static/script.js"></script>
+</body>
+
+</html>

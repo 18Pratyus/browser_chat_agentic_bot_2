@@ -1,0 +1,23 @@
+{
+  "servers": {
+    "expense": {
+      "transport": "stdio",
+      "command": "uv",
+      "args": [
+        "run",
+        "fastmcp",
+        "run",
+        "main.py"
+      ],
+      "cwd": "/Users/pratyusmansingh/Desktop/Apple_folder/Qualysec_experiments/ai_experiments/new_agentic_bot_part_two/mcp_remote_server_codes"
+    },
+    "browser": {
+      "transport": "stdio",
+      "command": "/Users/pratyusmansingh/Desktop/Apple_folder/Qualysec_experiments/ai_experiments/new_agentic_bot_part_two/mcp_remote_server_codes/mcp_client_side/browser_env/bin/python",
+      "args": [
+        "browser_mcp_server.py"
+      ],
+      "cwd": "/Users/pratyusmansingh/Desktop/Apple_folder/Qualysec_experiments/ai_experiments/new_agentic_bot_part_two/mcp_remote_server_codes/mcp_client_side"
+    }
+  }
+}
